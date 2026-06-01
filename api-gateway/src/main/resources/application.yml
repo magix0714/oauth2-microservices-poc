@@ -8,7 +8,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${GATEWAY_JWT_ISSUER_URI:http://localhost:8081/realms/demo-realm}
+          jwk-set-uri: ${GATEWAY_JWT_JWK_SET_URI:http://localhost:8081/realms/demo-realm/protocol/openid-connect/certs}
   cloud:
     gateway:
       routes:

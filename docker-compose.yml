@@ -37,7 +37,7 @@ services:
     ports:
       - "8079:8080"
     environment:
-      GATEWAY_JWT_ISSUER_URI: http://keycloak:8080/realms/demo-realm
+      GATEWAY_JWT_JWK_SET_URI: http://keycloak:8080/realms/demo-realm/protocol/openid-connect/certs
       PRODUCT_SERVICE_URI: http://product-service:8082
       ORDER_SERVICE_URI: http://order-service:8084
       PAYMENT_SERVICE_URI: http://payment-service:8085
@@ -53,7 +53,7 @@ services:
     depends_on:
       - keycloak
     environment:
-      PRODUCT_JWT_ISSUER_URI: http://keycloak:8080/realms/demo-realm
+      PRODUCT_JWT_JWK_SET_URI: http://keycloak:8080/realms/demo-realm/protocol/openid-connect/certs
     ports:
       - "8082:8082"
     networks:
@@ -68,7 +68,7 @@ services:
       - keycloak
       - product-service
     environment:
-      ORDER_JWT_ISSUER_URI: http://keycloak:8080/realms/demo-realm
+      ORDER_JWT_JWK_SET_URI: http://keycloak:8080/realms/demo-realm/protocol/openid-connect/certs
       ORDER_CLIENT_TOKEN_URI: http://keycloak:8080/realms/demo-realm/protocol/openid-connect/token
       ORDER_CLIENT_ID: order-service-client
       ORDER_CLIENT_SECRET: order-service-secret
@@ -87,7 +87,7 @@ services:
       - keycloak
       - order-service
     environment:
-      PAYMENT_JWT_ISSUER_URI: http://keycloak:8080/realms/demo-realm
+      PAYMENT_JWT_JWK_SET_URI: http://keycloak:8080/realms/demo-realm/protocol/openid-connect/certs
       ORDER_SERVICE_BASE_URL: http://order-service:8084
     ports:
       - "8085:8085"

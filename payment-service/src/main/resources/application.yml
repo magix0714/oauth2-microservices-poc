@@ -8,7 +8,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${PAYMENT_JWT_ISSUER_URI:http://localhost:8081/realms/demo-realm}
+          jwk-set-uri: ${PAYMENT_JWT_JWK_SET_URI:http://localhost:8081/realms/demo-realm/protocol/openid-connect/certs}
 
 services:
   order-service-base-url: ${ORDER_SERVICE_BASE_URL:http://localhost:8084}

@@ -1,0 +1,113 @@
+:root {
+  --bg: #f9f6ef;
+  --ink: #172321;
+  --paper: #fffef9;
+  --line: #d8cfba;
+  --accent: #0f766e;
+  --accent-2: #9a3412;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%, #f1e8cc 0, #f9f6ef 45%),
+    linear-gradient(180deg, #f9f6ef, #f4efe2);
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+
+.shell {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.hero,
+.panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.hero h1,
+.panel h2 {
+  margin: 0 0 10px;
+  font-family: "Alegreya Sans SC", "IBM Plex Sans", sans-serif;
+  letter-spacing: 0.3px;
+}
+
+.actions,
+.grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0a5b55;
+}
+
+.grid button:nth-child(odd) {
+  background: var(--accent-2);
+}
+
+.grid button:nth-child(odd):hover {
+  background: #7c2d12;
+}
+
+details summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+pre {
+  white-space: pre-wrap;
+  background: #f3efe4;
+  border-radius: 8px;
+  padding: 10px;
+  overflow: auto;
+}
+
+.paymentBox {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 10px;
+  align-items: end;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-weight: 700;
+}
+
+input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+@media (max-width: 800px) {
+  .paymentBox {
+    grid-template-columns: 1fr;
+  }
+}

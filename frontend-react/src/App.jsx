@@ -43,6 +43,10 @@ export default function App() {
   const [result, setResult] = useState(null);
   const [orderIdInput, setOrderIdInput] = useState("");
   const [amountInput, setAmountInput] = useState("990");
+  const [newProductName, setNewProductName] = useState("UI Demo Product");
+  const [newProductDescription, setNewProductDescription] = useState("Created from API Playground");
+  const [newProductPrice, setNewProductPrice] = useState("19.99");
+  const [newProductPublic, setNewProductPublic] = useState(false);
   const [keycloakClient, setKeycloakClient] = useState(null);
   const [initError, setInitError] = useState("");
 
@@ -88,6 +92,12 @@ export default function App() {
 
   const accessClaims = useMemo(() => parseJwt(accessToken), [accessToken]);
   const idClaims = useMemo(() => parseJwt(idToken), [idToken]);
+  const principalName =
+    accessClaims?.preferred_username ||
+    idClaims?.preferred_username ||
+    accessClaims?.sub ||
+    idClaims?.sub ||
+    "N/A";
   const scopes = accessClaims?.scope ? accessClaims.scope.split(" ") : [];
   const roles = accessClaims?.realm_access?.roles || [];
 
@@ -137,6 +147,7 @@ export default function App() {
         <h2>Session</h2>
         <p>Status: {authenticated ? "Authenticated" : "Anonymous"}</p>
         <p>User: {idClaims?.preferred_username || "N/A"}</p>
+        <p>Principal: {principalName}</p>
         <p>Access token expiry: {formatTimestamp(accessClaims?.exp)}</p>
         <p>ID token expiry: {formatTimestamp(idClaims?.exp)}</p>
       </section>
@@ -180,6 +191,50 @@ export default function App() {
             onClick={() => runCall("GET /api/orders/service-products", () => apiCall("/api/orders/service-products", accessToken))}
           >
             Service-to-Service Demo
+          </button>
+        </div>
+        <div className="adminBox">
+          <h3>Admin Product API</h3>
+          <p>Requires `ROLE_ADMIN` (or configured admin authority in gateway/product service).</p>
+          {!roles.includes("ADMIN") && (
+            <p>
+              ADMIN hint: your current token does not include <code>ROLE_ADMIN</code>, so this call will return{" "}
+              <code>403 Forbidden</code>. Log in as <code>admin</code> to test product creation.
+            </p>
+          )}
+          <label>
+            Name
+            <input value={newProductName} onChange={(e) => setNewProductName(e.target.value)} placeholder="Product name" />
+          </label>
+          <label>
+            Description
+            <input
+              value={newProductDescription}
+              onChange={(e) => setNewProductDescription(e.target.value)}
+              placeholder="Product description"
+            />
+          </label>
+          <label>
+            Price
+            <input value={newProductPrice} onChange={(e) => setNewProductPrice(e.target.value)} placeholder="19.99" />
+          </label>
+          <label className="checkboxLabel">
+            <input type="checkbox" checked={newProductPublic} onChange={(e) => setNewProductPublic(e.target.checked)} />
+            Public product
+          </label>
+          <button
+            onClick={() =>
+              runCall("POST /api/admin/products", () =>
+                apiCall("/api/admin/products", accessToken, "POST", {
+                  name: newProductName,
+                  description: newProductDescription,
+                  price: newProductPrice,
+                  public: newProductPublic
+                })
+              )
+            }
+          >
+            Add Product (Admin)
           </button>
         </div>
         <div className="paymentBox">

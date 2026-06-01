@@ -35,8 +35,8 @@ public class SecurityConfig {
                 .authorizeExchange(authz -> authz
                         .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .pathMatchers("/actuator/health", "/actuator/info").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/products/public").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/products/**").authenticated()
+                        .pathMatchers("/api/products/public").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/products", "/api/products/**").authenticated()
                         .pathMatchers(HttpMethod.POST, "/api/products/**").hasRole("ADMIN")
                         .pathMatchers(HttpMethod.GET, "/api/orders/**").hasAuthority("SCOPE_orders.read")
                         .pathMatchers(HttpMethod.POST, "/api/orders/**").hasAuthority("SCOPE_orders.write")

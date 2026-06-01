@@ -106,6 +106,26 @@ input {
   padding: 10px;
 }
 
+.adminBox {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+}
+
+.adminBox h3,
+.adminBox p {
+  margin: 0;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 @media (max-width: 800px) {
   .paymentBox {
     grid-template-columns: 1fr;

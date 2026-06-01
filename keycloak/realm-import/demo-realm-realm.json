@@ -76,6 +76,10 @@
         "+"
       ],
       "defaultClientScopes": [
+        "profile",
+        "email",
+        "roles",
+        "web-origins",
         "products.read",
         "orders.read",
         "orders.write"

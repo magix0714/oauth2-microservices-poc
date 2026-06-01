@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>oauth2-microservices-poc</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>oauth2-microservices-poc</name>
+    <description>OAuth2/OIDC Microservices POC Parent</description>
+
+    <modules>
+        <module>api-gateway</module>
+        <module>product-service</module>
+        <module>order-service</module>
+        <module>payment-service</module>
+    </modules>
+
+    <properties>
+        <java.version>25</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot.version>4.0.0</spring-boot.version>
+        <spring-cloud.version>2026.0.0</spring-cloud.version>
+    </properties>
+</project>

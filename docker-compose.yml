@@ -1,0 +1,85 @@
+version: "3.9"
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    command: start-dev
+    ports:
+      - "8081:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    networks:
+      - public-network
+      - app-network
+
+  keycloak-postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    volumes:
+      - keycloak-db-data:/var/lib/postgresql/data
+    networks:
+      - identity-data-network
+
+  api-gateway:
+    image: api-gateway:local
+    build:
+      context: ./api-gateway
+    depends_on:
+      - keycloak
+    ports:
+      - "8080:8080"
+    networks:
+      - public-network
+      - app-network
+
+  product-service:
+    image: product-service:local
+    build:
+      context: ./product-service
+    depends_on:
+      - keycloak
+    networks:
+      - app-network
+
+  order-service:
+    image: order-service:local
+    build:
+      context: ./order-service
+    depends_on:
+      - keycloak
+      - product-service
+    networks:
+      - app-network
+
+  payment-service:
+    image: payment-service:local
+    build:
+      context: ./payment-service
+    depends_on:
+      - keycloak
+    networks:
+      - app-network
+
+  frontend-react:
+    image: frontend-react:local
+    build:
+      context: ./frontend-react
+    depends_on:
+      - api-gateway
+      - keycloak
+    ports:
+      - "3000:3000"
+    networks:
+      - public-network
+
+networks:
+  public-network:
+  app-network:
+  identity-data-network:
+
+volumes:
+  keycloak-db-data:

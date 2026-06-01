@@ -1,0 +1,20 @@
+server:
+  port: ${SERVER_PORT:8085}
+
+spring:
+  application:
+    name: payment-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${PAYMENT_JWT_ISSUER_URI:http://localhost:8081/realms/demo-realm}
+
+services:
+  order-service-base-url: ${ORDER_SERVICE_BASE_URL:http://localhost:8084}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

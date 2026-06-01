@@ -9,6 +9,20 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${ORDER_JWT_ISSUER_URI:http://localhost:8081/realms/demo-realm}
+      client:
+        provider:
+          keycloak:
+            token-uri: ${ORDER_CLIENT_TOKEN_URI:http://localhost:8081/realms/demo-realm/protocol/openid-connect/token}
+        registration:
+          order-service-client:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${ORDER_CLIENT_ID:order-service-client}
+            client-secret: ${ORDER_CLIENT_SECRET:order-service-secret}
+            scope: products.read
+
+services:
+  product-service-base-url: ${PRODUCT_SERVICE_BASE_URL:http://localhost:8082}
 
 management:
   endpoints:

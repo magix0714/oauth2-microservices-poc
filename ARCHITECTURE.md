@@ -202,6 +202,38 @@ Order Service calling Product Service uses machine identity:
 
 This flow ensures secure inter-service communication without bypassing resource server security.
 
+### 10.1 Implemented Runtime Flow (Current POC)
+The flow is implemented and testable via:
+- `GET /orders/service-products` on Order Service
+- internal call to `GET /products` on Product Service
+
+```mermaid
+sequenceDiagram
+    participant UserToken as User (JWT)
+    participant OrderAPI as Order Service API
+    participant Keycloak as Keycloak Token Endpoint
+    participant ProductAPI as Product Service API
+
+    UserToken->>OrderAPI: GET /orders/service-products (Bearer user token)
+    OrderAPI->>OrderAPI: Validate incoming user JWT (resource server)
+    OrderAPI->>Keycloak: POST /token (grant_type=client_credentials, client_id=order-service-client)
+    Keycloak-->>OrderAPI: Service access token (scope: products.read)
+    OrderAPI->>ProductAPI: GET /products (Bearer service token)
+    ProductAPI->>ProductAPI: Validate service JWT + authorize scope
+    ProductAPI-->>OrderAPI: Product list
+    OrderAPI-->>UserToken: 200 + diagnostic payload
+```
+
+Implementation mapping:
+- Client registration and token endpoint config:
+  - `order-service/src/main/resources/application.yml`
+- OAuth2 client manager (`client_credentials` provider):
+  - `order-service/src/main/java/com/example/orderservice/config/OAuth2ClientConfig.java`
+- Token acquisition + downstream call:
+  - `order-service/src/main/java/com/example/orderservice/service/ProductServiceClient.java`
+- Demo endpoint:
+  - `order-service/src/main/java/com/example/orderservice/controller/OrderController.java`
+
 ## 11. Network Topology
 ```mermaid
 flowchart LR

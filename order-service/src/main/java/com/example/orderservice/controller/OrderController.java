@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.orderservice.model.CreateOrderRequest;
+import com.example.orderservice.model.ServiceToServiceCallResult;
 import com.example.orderservice.model.JwtClaimsView;
 import com.example.orderservice.model.OrderRecord;
 import com.example.orderservice.service.InMemoryOrderService;
+import com.example.orderservice.service.ProductServiceClient;
 
 import jakarta.validation.Valid;
 
@@ -28,9 +30,11 @@ import jakarta.validation.Valid;
 public class OrderController {
 
     private final InMemoryOrderService orderService;
+    private final ProductServiceClient productServiceClient;
 
-    public OrderController(InMemoryOrderService orderService) {
+    public OrderController(InMemoryOrderService orderService, ProductServiceClient productServiceClient) {
         this.orderService = orderService;
+        this.productServiceClient = productServiceClient;
     }
 
     @GetMapping
@@ -74,6 +78,11 @@ public class OrderController {
                 String.valueOf(jwt.getIssuer()),
                 scopes,
                 roles);
+    }
+
+    @GetMapping("/service-products")
+    public ServiceToServiceCallResult serviceToServiceProducts() {
+        return productServiceClient.fetchProductsUsingClientCredentials();
     }
 
     private String extractUserKey(Jwt jwt, JwtAuthenticationToken authentication) {

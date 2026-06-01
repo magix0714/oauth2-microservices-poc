@@ -30,11 +30,17 @@ services:
   api-gateway:
     image: api-gateway:local
     build:
-      context: ./api-gateway
+      context: .
+      dockerfile: api-gateway/Dockerfile
     depends_on:
       - keycloak
     ports:
-      - "8080:8080"
+      - "8079:8080"
+    environment:
+      GATEWAY_JWT_ISSUER_URI: http://keycloak:8080/realms/demo-realm
+      PRODUCT_SERVICE_URI: http://product-service:8080
+      ORDER_SERVICE_URI: http://order-service:8080
+      PAYMENT_SERVICE_URI: http://payment-service:8080
     networks:
       - public-network
       - app-network

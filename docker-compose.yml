@@ -39,7 +39,7 @@ services:
     environment:
       GATEWAY_JWT_ISSUER_URI: http://keycloak:8080/realms/demo-realm
       PRODUCT_SERVICE_URI: http://product-service:8082
-      ORDER_SERVICE_URI: http://order-service:8080
+      ORDER_SERVICE_URI: http://order-service:8084
       PAYMENT_SERVICE_URI: http://payment-service:8080
     networks:
       - public-network
@@ -62,10 +62,15 @@ services:
   order-service:
     image: order-service:local
     build:
-      context: ./order-service
+      context: .
+      dockerfile: order-service/Dockerfile
     depends_on:
       - keycloak
       - product-service
+    environment:
+      ORDER_JWT_ISSUER_URI: http://keycloak:8080/realms/demo-realm
+    ports:
+      - "8084:8084"
     networks:
       - app-network
 

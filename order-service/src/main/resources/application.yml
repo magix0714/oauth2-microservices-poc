@@ -1,0 +1,17 @@
+server:
+  port: ${SERVER_PORT:8084}
+
+spring:
+  application:
+    name: order-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${ORDER_JWT_ISSUER_URI:http://localhost:8081/realms/demo-realm}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

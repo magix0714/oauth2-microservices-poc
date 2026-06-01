@@ -1,0 +1,164 @@
+{
+  "realm": "demo-realm",
+  "enabled": true,
+  "displayName": "Demo Realm",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "rememberMe": true,
+  "sslRequired": "none",
+  "roles": {
+    "realm": [
+      {
+        "name": "USER",
+        "description": "Regular user role"
+      },
+      {
+        "name": "ADMIN",
+        "description": "Administrator role"
+      }
+    ]
+  },
+  "clientScopes": [
+    {
+      "name": "products.read",
+      "description": "Read products scope",
+      "protocol": "openid-connect",
+      "attributes": {
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Read products"
+      }
+    },
+    {
+      "name": "orders.read",
+      "description": "Read orders scope",
+      "protocol": "openid-connect",
+      "attributes": {
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Read orders"
+      }
+    },
+    {
+      "name": "orders.write",
+      "description": "Write orders scope",
+      "protocol": "openid-connect",
+      "attributes": {
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Write orders"
+      }
+    },
+    {
+      "name": "payments.write",
+      "description": "Write payments scope",
+      "protocol": "openid-connect",
+      "attributes": {
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Write payments"
+      }
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "frontend-client",
+      "name": "Frontend React Client",
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3000",
+        "+"
+      ],
+      "defaultClientScopes": [
+        "products.read",
+        "orders.read",
+        "orders.write"
+      ],
+      "optionalClientScopes": [
+        "products.read",
+        "orders.read",
+        "orders.write",
+        "payments.write"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
+    },
+    {
+      "clientId": "gateway-client",
+      "name": "API Gateway Client",
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "gateway-client-secret",
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "bearerOnly": true
+    },
+    {
+      "clientId": "order-service-client",
+      "name": "Order Service Client",
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "order-service-secret",
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "defaultClientScopes": [
+        "products.read"
+      ],
+      "optionalClientScopes": [
+        "products.read",
+        "orders.read",
+        "orders.write",
+        "payments.write"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "user",
+      "enabled": true,
+      "firstName": "Demo",
+      "lastName": "User",
+      "email": "user@example.com",
+      "emailVerified": true,
+      "requiredActions": [],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "USER"
+      ]
+    },
+    {
+      "username": "admin",
+      "enabled": true,
+      "firstName": "Demo",
+      "lastName": "Admin",
+      "email": "admin@example.com",
+      "emailVerified": true,
+      "requiredActions": [],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ADMIN"
+      ]
+    }
+  ]
+}

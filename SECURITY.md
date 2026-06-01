@@ -80,6 +80,7 @@ Verification mechanism:
   - return only orders owned by authenticated subject
 - Payment Service:
   - `POST /payments` requires `payments.write`
+  - checks that the authenticated user is allowed to pay for the requested order
   - applies business authorization checks beyond token scopes
 
 ## Service-to-Service Security
@@ -125,3 +126,12 @@ Explicitly avoid:
 - `WebSecurityConfigurerAdapter`
 - deprecated Spring Security APIs
 - custom token parsing where framework support exists
+
+## Production Notes
+For production:
+- use HTTPS everywhere
+- store secrets outside source code
+- rotate keys
+- use short-lived access tokens
+- use proper observability
+- use separate Keycloak realm/client configuration per environment

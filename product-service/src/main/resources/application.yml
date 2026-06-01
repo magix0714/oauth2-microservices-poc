@@ -1,0 +1,17 @@
+server:
+  port: ${SERVER_PORT:8082}
+
+spring:
+  application:
+    name: product-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${PRODUCT_JWT_ISSUER_URI:http://localhost:8081/realms/demo-realm}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
